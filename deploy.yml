@@ -6,22 +6,30 @@ metadata:
    app: gateway
 spec:
   containers:
-  - image: mikewasson/appgw:latest
-    name: gateway
+  - name: gateway
+    image: mikewasson/appgw:latest
     ports:
       - containerPort: 80
       - containerPort: 443
+    volumeMounts:
+      - name: tls-certs
+        mountPath: "/tls"
+        readOnly: true
+  volumes:
+    - name: tls-certs
+      secret:
+        secretName: tls
 ---
 apiVersion: v1
 kind: Pod
 metadata:
   name: app1
   labels:
-   app: app1
+    app: app1
 spec:
   containers:
-  - image: mikewasson/app1
-    name: app1
+  - name: app1
+    image: mikewasson/app1
     ports:
       - containerPort: 80
 ---
