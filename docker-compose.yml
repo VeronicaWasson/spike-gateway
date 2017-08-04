@@ -1,0 +1,20 @@
+version: '3'
+services:
+  gateway:
+    build: gateway
+    ports:
+     - "8080:80"
+     - "8081:443"
+    networks:
+    - network1
+  app1:
+    build: app
+    ports:
+     - "8001:80"
+    networks:
+    - network1
+
+networks:
+  network1:
+    external:
+      name: network1
